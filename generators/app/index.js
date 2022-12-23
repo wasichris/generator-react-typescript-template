@@ -63,13 +63,16 @@ module.exports = class extends Generator {
       description: this.answers.projectDesc
     });
 
-    // Deal with the file/folder name begin with '.'
-    // They will not copy by default
-    // this.fs.copy(
-    //   this.templatePath(".gitignore"),
-    //   this.destinationPath(".gitignore")
-    // );
-    // this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
+    // The file/folder name begin with '.' will not copy by default
+    // workaround: copy it directly
+    this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
+
+    // The .gitignore file will be missing after npm publish (might filter by npm)
+    // workaround: use _gitignore to avoid this situation
+    this.fs.copy(
+      this.templatePath("_gitignore"),
+      this.destinationPath(".gitignore")
+    );
   }
 
   install() {
