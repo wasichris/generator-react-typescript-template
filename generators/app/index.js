@@ -69,7 +69,12 @@ module.exports = class extends Generator {
 
     // The .gitignore file will be missing after npm publish (might filter by npm)
     // workaround: use _gitignore to avoid this situation
-    this.fs.delete(this.destinationPath("_gitignore"));
+    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
+    if (isExist) {
+      this.log("11111111111111");
+      this.fs.delete(this.destinationPath("_gitignore"));
+    }
+
     this.fs.copy(
       this.templatePath("_gitignore"),
       this.destinationPath(".gitignore")
@@ -82,6 +87,12 @@ module.exports = class extends Generator {
   }
 
   end() {
+    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
+    if (isExist) {
+      this.log("22222222222222222");
+      this.fs.delete(this.destinationPath("_gitignore"));
+    }
+
     this.log("Git init.");
     this.spawnCommandSync("git", ["init", "-b", "main"]);
 
