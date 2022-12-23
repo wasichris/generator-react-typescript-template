@@ -71,8 +71,8 @@ module.exports = class extends Generator {
     // workaround: use _gitignore to avoid this situation
     const isExist = this.fs.exists(this.destinationPath("_gitignore"));
     if (isExist) {
-      this.log("11111111111111");
-      this.fs.delete(this.destinationPath("_gitignore"));
+      this.log("has:" + this.destinationPath("_gitignore"));
+      // this.fs.delete(this.destinationPath("_gitignore"));
     }
 
     this.fs.copy(
@@ -87,12 +87,6 @@ module.exports = class extends Generator {
   }
 
   end() {
-    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
-    if (isExist) {
-      this.log("22222222222222222");
-      this.fs.delete(this.destinationPath("_gitignore"));
-    }
-
     this.log("Git init.");
     this.spawnCommandSync("git", ["init", "-b", "main"]);
 
