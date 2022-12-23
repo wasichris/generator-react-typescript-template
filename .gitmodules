@@ -1,0 +1,3 @@
+[submodule "generators/app/templates"]
+	path = generators/app/templates
+	url = git@github.com:wasichris/react-typescript-template.git
