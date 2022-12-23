@@ -69,6 +69,7 @@ module.exports = class extends Generator {
 
     // The .gitignore file will be missing after npm publish (might filter by npm)
     // workaround: use _gitignore to avoid this situation
+    this.fs.delete(this.destinationPath("_gitignore"));
     this.fs.copy(
       this.templatePath("_gitignore"),
       this.destinationPath(".gitignore")
@@ -78,5 +79,22 @@ module.exports = class extends Generator {
   install() {
     this.log("Install project packages by npm.");
     this.spawnCommandSync("npm", ["install"]);
+  }
+
+  end() {
+    this.log("Git init.");
+    this.spawnCommandSync("git", ["init", "-b", "main"]);
+
+    this.log("Git commit.");
+    this.spawnCommandSync("git", ["add", "--all"]);
+    this.spawnCommandSync("git", [
+      "commit",
+      "-m",
+      '"Initial commit from generator"'
+    ]);
+
+    this.log("Application start up command:");
+    this.log(`cd ${this.answers.projectName}`);
+    this.log("npm start");
   }
 };
