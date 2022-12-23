@@ -65,11 +65,11 @@ module.exports = class extends Generator {
 
     // Deal with the file/folder name begin with '.'
     // They will not copy by default
-    this.fs.copy(
-      this.templatePath(".gitignore"),
-      this.destinationPath(".gitignore")
-    );
-    this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
+    // this.fs.copy(
+    //   this.templatePath(".gitignore"),
+    //   this.destinationPath(".gitignore")
+    // );
+    // this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
   }
 
   install() {
