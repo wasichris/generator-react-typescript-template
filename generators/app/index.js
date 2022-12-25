@@ -8,6 +8,9 @@ const mkdirp = require("mkdirp");
 
 module.exports = class extends Generator {
   async prompting() {
+    // 刪除_gitignore檔案時，不再詢問
+    this.conflicter.force = true;
+
     // Have Yeoman greet the user.
     this.log(
       yosay(
@@ -69,12 +72,6 @@ module.exports = class extends Generator {
 
     // The .gitignore file will be missing after npm publish (might filter by npm)
     // workaround: use _gitignore to avoid this situation
-    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
-    if (isExist) {
-      this.log("has:" + this.destinationPath("_gitignore"));
-      // this.fs.delete(this.destinationPath("_gitignore"));
-    }
-
     this.fs.copy(
       this.templatePath("_gitignore"),
       this.destinationPath(".gitignore")
@@ -82,6 +79,12 @@ module.exports = class extends Generator {
   }
 
   install() {
+    // remove useless _gitignore file
+    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
+    if (isExist) {
+      this.fs.delete(this.destinationPath("_gitignore"));
+    }
+
     this.log("Install project packages by npm.");
     this.spawnCommandSync("npm", ["install"]);
   }
