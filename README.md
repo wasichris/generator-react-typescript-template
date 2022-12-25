@@ -1,4 +1,4 @@
-# generator-react-typescript-template [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-react-typescript-template [![npm version](https://badge.fury.io/js/generator-react-typescript-template.svg)](https://badge.fury.io/js/generator-react-typescript-template) [![Build Status][travis-image]][travis-url]
 > create react v18 typescript template with router, redux toolkit, formik(yup), i18n
 
 ## Installation
