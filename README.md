@@ -1,4 +1,4 @@
-# generator-react-typescript-template <a href="https://badge.fury.io/js/generator-react-typescript-template"><img src="https://badge.fury.io/js/generator-react-typescript-template.svg" alt="npm version" height="18"></a> 
+# generator-react-typescript-template  
 > create react v18 typescript template with router, redux toolkit, formik(yup), i18n
 
 
