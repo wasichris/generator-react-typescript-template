@@ -101,8 +101,8 @@ module.exports = class extends Generator {
       '"Initial commit from generator"'
     ]);
 
-    this.log("Application start up command:");
-    this.log(`cd ${this.answers.projectName}`);
-    this.log("npm start");
+    this.log(chalk.yellow("Application start up command:"));
+    this.log(chalk.yellow(`cd ${this.answers.projectName}`));
+    this.log(chalk.yellow("npm start"));
   }
 };
