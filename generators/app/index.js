@@ -6,7 +6,7 @@ const yosay = require("yosay");
 const path = require("path");
 const mkdirp = require("mkdirp");
 
-const tempGitIgnoreFilename = ".gitignore-publish";
+const tempGitIgnoreFilename = "_gitignore";
 module.exports = class extends Generator {
   async prompting() {
     // 刪除_gitignore檔案時，不再詢問
