@@ -6,6 +6,7 @@ const yosay = require("yosay");
 const path = require("path");
 const mkdirp = require("mkdirp");
 
+const tempGitIgnoreFilename = ".gitignore-publish";
 module.exports = class extends Generator {
   async prompting() {
     // 刪除_gitignore檔案時，不再詢問
@@ -71,19 +72,16 @@ module.exports = class extends Generator {
     this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
 
     // The .gitignore file will be missing after npm publish (might filter by npm)
-    // workaround: use _gitignore to avoid this situation
+    // workaround: use tempGitIgnoreFilename to avoid this situation
     this.fs.copy(
-      this.templatePath("_gitignore"),
+      this.templatePath(tempGitIgnoreFilename),
       this.destinationPath(".gitignore")
     );
   }
 
   install() {
-    // remove useless _gitignore file
-    const isExist = this.fs.exists(this.destinationPath("_gitignore"));
-    if (isExist) {
-      this.fs.delete(this.destinationPath("_gitignore"));
-    }
+    // remove useless tempGitIgnoreFilename file
+    this.fs.delete(this.destinationPath(tempGitIgnoreFilename));
 
     this.log("Install project packages by npm.");
     this.spawnCommandSync("npm", ["install"]);
