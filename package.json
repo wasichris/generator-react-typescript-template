@@ -1,7 +1,7 @@
 {
   "name": "generator-react-typescript-template",
-  "version": "0.0.12",
-  "description": "create react v18 typescript template with router, redux toolkit, formik(yup), i18n",
+  "version": "0.0.13",
+  "description": "create react v18 typescript template with router, redux toolkit, formik(yup), i18n and msw",
   "homepage": "",
   "author": {
     "name": "chris chen",
@@ -12,6 +12,8 @@
   ],
   "main": "generators/index.js",
   "keywords": [
+    "react",
+    "typescript",
     "yeoman-generator"
   ],
   "devDependencies": {
