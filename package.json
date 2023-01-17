@@ -1,6 +1,6 @@
 {
   "name": "generator-react-typescript-template",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "create react v18 typescript template with router, redux toolkit, formik(yup), i18n and msw",
   "homepage": "",
   "author": {
@@ -38,7 +38,11 @@
     "yosay": "^2.0.2"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/generators/"
+    ]
   },
   "lint-staged": {
     "*.js": [

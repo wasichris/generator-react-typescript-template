@@ -46,6 +46,7 @@ module.exports = class extends Generator {
 
       mkdirp.sync(this.answers.projectName);
       this.destinationRoot(this.destinationPath(this.answers.projectName));
+      this.answers.isCreateNewFolder = true;
     }
   }
 
@@ -77,6 +78,15 @@ module.exports = class extends Generator {
       this.templatePath(tempGitIgnoreFilename),
       this.destinationPath(".gitignore")
     );
+
+    // update package json
+    const pkgJson = {
+      name: this.answers.projectName,
+      description: this.answers.projectDesc
+    };
+
+    // Extend or create package.json file in destination path
+    this.fs.extendJSON(this.destinationPath("package.json"), pkgJson);
   }
 
   install() {
@@ -100,7 +110,10 @@ module.exports = class extends Generator {
     ]);
 
     this.log(chalk.yellow("Application start up command:"));
-    this.log(chalk.yellow(`cd ${this.answers.projectName}`));
+    if (this.answers.isCreateNewFolder) {
+      this.log(chalk.yellow(`cd ${this.answers.projectName}`));
+    }
+
     this.log(chalk.yellow("npm start"));
   }
 };
