@@ -1,6 +1,6 @@
 {
   "name": "generator-react-typescript-template",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "create react v18 typescript template with router, redux toolkit, formik(yup), i18n and msw",
   "homepage": "",
   "author": {
