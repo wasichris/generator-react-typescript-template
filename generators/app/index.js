@@ -8,6 +8,11 @@ const mkdirp = require("mkdirp");
 
 const tempGitIgnoreFilename = "_gitignore";
 const tempPackageLockFilename = "package-lock-publish.json";
+
+const missingFiles = [
+  { from: "_gitignore", to: ".gitignore" },
+  { from: "package-lock-publish.json", to: "package-lock.json" }
+];
 module.exports = class extends Generator {
   async prompting() {
     // 刪除_gitignore檔案時，不再詢問
@@ -52,6 +57,10 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    // List Template Path
+    const sourcePath = this.sourceRoot()
+    this.log(chalk.yellow("template path: ", sourcePath));
+
     // Copy all files
     this.fs.copy(this.templatePath("**"), this.destinationRoot());
 
@@ -73,24 +82,14 @@ module.exports = class extends Generator {
     // workaround: copy it directly
     this.fs.copy(this.templatePath(".vscode"), this.destinationPath(".vscode"));
 
-    // The .gitignore file will be missing after npm publish (might filter by npm)
-    // workaround: use tempGitIgnoreFilename to avoid this situation
-    this.fs.copy(
-      this.templatePath(tempGitIgnoreFilename),
-      this.destinationPath(".gitignore")
-    );
-
-    this.log(chalk.yellow("list template files"));
-    const sourcePath = this.sourceRoot()
-    this.log(chalk.yellow("sourcePath: ", sourcePath));
-    this.spawnCommandSync("ls", [sourcePath, '-a']);
-
-    // The package-lock.json file will be missing after npm publish (might filter by npm)
-    // workaround: use tempPackageLockFilename to avoid this situation
-    this.fs.copy(
-      this.templatePath(tempPackageLockFilename),
-      this.destinationPath("package-lock.json")
-    );
+    // The special file will be missing after npm publish (might filter by npm)
+    // workaround: use other name to avoid this situation
+    missingFiles.forEach(file => {
+      this.fs.copy(
+        this.templatePath(file.from),
+        this.destinationPath(file.to)
+      );
+    });
 
     // update package json
     const pkgJson = {
@@ -103,11 +102,10 @@ module.exports = class extends Generator {
   }
 
   install() {
-    // remove useless tempGitIgnoreFilename file
-    this.fs.delete(this.destinationPath(tempGitIgnoreFilename));
-
-    // remove useless tempPackageLockFilename file
-    this.fs.delete(this.destinationPath(tempPackageLockFilename));
+    // remove useless files
+    missingFiles.forEach(file => {
+      this.fs.delete(this.destinationPath(file.from));
+    });
 
     this.log("Install project packages by npm.");
     this.spawnCommandSync("npm", ["install"]);
