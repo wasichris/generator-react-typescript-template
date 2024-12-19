@@ -7,6 +7,7 @@ const path = require("path");
 const mkdirp = require("mkdirp");
 
 const tempGitIgnoreFilename = "_gitignore";
+const tempPackageLockFilename = "package-lock-publish.json";
 module.exports = class extends Generator {
   async prompting() {
     // 刪除_gitignore檔案時，不再詢問
@@ -79,6 +80,13 @@ module.exports = class extends Generator {
       this.destinationPath(".gitignore")
     );
 
+    // The package-lock.json file will be missing after npm publish (might filter by npm)
+    // workaround: use tempPackageLockFilename to avoid this situation
+    this.fs.copy(
+      this.templatePath(tempPackageLockFilename),
+      this.destinationPath("package-lock.json")
+    );
+
     // update package json
     const pkgJson = {
       name: this.answers.projectName,
@@ -92,6 +100,9 @@ module.exports = class extends Generator {
   install() {
     // remove useless tempGitIgnoreFilename file
     this.fs.delete(this.destinationPath(tempGitIgnoreFilename));
+
+    // remove useless tempPackageLockFilename file
+    this.fs.delete(this.destinationPath(tempPackageLockFilename));
 
     this.log("Install project packages by npm.");
     this.spawnCommandSync("npm", ["install"]);
