@@ -80,6 +80,11 @@ module.exports = class extends Generator {
       this.destinationPath(".gitignore")
     );
 
+    this.log(chalk.yellow("list template files"));
+    const sourcePath = this.sourceRoot()
+    this.log(chalk.yellow("sourcePath: ", sourcePath));
+    this.spawnCommandSync("ls", [sourcePath]);
+
     // The package-lock.json file will be missing after npm publish (might filter by npm)
     // workaround: use tempPackageLockFilename to avoid this situation
     this.fs.copy(
@@ -105,7 +110,7 @@ module.exports = class extends Generator {
     this.fs.delete(this.destinationPath(tempPackageLockFilename));
 
     this.log("Install project packages by npm.");
-    this.spawnCommandSync("npm", ["install"]);
+    // this.spawnCommandSync("npm", ["install"]);
   }
 
   end() {
